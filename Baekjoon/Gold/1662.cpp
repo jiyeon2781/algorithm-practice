@@ -15,27 +15,27 @@ int main()
     string str;
     cin >> str;
     
-    stack<pair<int, int>> numbers;  // { count, 끝자리 숫자 }
-    pair<int, int> num, top;
+    stack<pair<int, int>> numbers; // { count, 끝자리 숫자 }
+    pair<int, int> top;
 
-    num = { 0, 0 };
+    int strLength = 0;
+    char preChar;
 
     for (char ch : str) {
         if (ch == '(') {
-            numbers.push(num);
-            num.second = 0;
-            num.first = 0;
+            numbers.push({ strLength, preChar });
+            strLength = 0;
         }
         else if (ch == ')') {
             top = numbers.top();
             numbers.pop();
-            num.first = (top.second * num.first) + (top.first - 1); // 문자열 길이 계산
+            strLength = (top.second * strLength) + (top.first - 1); // 문자열 길이 계산
         }
         else {
-            num.first += 1;
-            num.second = ch - '0';
+            strLength += 1;
+            preChar = ch - '0';
         }
     }
 
-    cout << num.first;
+    cout << strLength;
 }  
