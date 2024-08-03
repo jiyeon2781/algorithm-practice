@@ -4,7 +4,10 @@
 
 using namespace std;
 
-void Backtracking(int index, int depth, int N, int M, vector<int> check);
+void Backtracking(int index, int depth);
+
+int N, M;
+vector<int> check;
 
 int main()
 {
@@ -12,15 +15,12 @@ int main()
     cin.tie(0);
     cout.tie(0);
 
-    int N, M;
-
     cin >> N >> M;
-    vector<int> check;
 
-    Backtracking(1, 0, N, M, check);
-}  
+    Backtracking(1, 0);
+}
 
-void Backtracking(int index, int depth, int N, int M, vector<int> check)
+void Backtracking(int index, int depth)
 {
     if (depth == M) {
         for (auto element : check) cout << element << ' ';
@@ -31,7 +31,7 @@ void Backtracking(int index, int depth, int N, int M, vector<int> check)
     for (int i = 1; i <= N; i++) {
         if (find(check.begin(), check.end(), i) != check.end()) continue;
         check.push_back(i);
-        Backtracking(index + 1, depth + 1, N, M, check);
+        Backtracking(i + 1, depth + 1);
         check.erase(remove(check.begin(), check.end(), i), check.end());
     }
 }
