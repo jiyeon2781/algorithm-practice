@@ -28,6 +28,7 @@ void Backtracking(int num, int depth) {
     }
 
     for (int i = num; i <= N; i++) {
+        if (find(checkList.begin(), checkList.end(), i) != checkList.end()) continue;
         checkList.push_back(i);
         Backtracking(i + 1, depth + 1);
         checkList.erase(remove(checkList.begin(), checkList.end(), i), checkList.end());
