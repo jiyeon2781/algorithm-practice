@@ -1,81 +1,81 @@
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <queue>
 
-#define MAX_NUM 801
-#define INF 8000001
+#define MAX_VERTEX_CNT 801
+#define INF 200000000
+
 using namespace std;
 
 struct Node {
-    int v;
+    int node;
     int cost;
 };
 
 struct compare {
-    bool operator() (const Node a, const Node b) {
+    bool operator() (Node a, Node b) {
+        if (a.cost == b.cost) return a.node > b.node;
         return a.cost > b.cost;
     }
 };
 
-vector<Node> graph[MAX_NUM];
+int Dijkstra(int start, int end, int N); 
 
-int Dijkstra(int start, int end);
+vector<Node> graph[MAX_VERTEX_CNT];
+int dist[MAX_VERTEX_CNT] = { 0, };
 
 int main()
 {
     ios_base::sync_with_stdio(0);
     cin.tie(0);
     cout.tie(0);
-    
-    int N, E, a, b, cost, v1, v2;
 
+    int N, E;
     cin >> N >> E;
+
+    int a, b, c, u, v;
     for (int i = 0; i < E; i++) {
-        cin >> a >> b >> cost;
-        graph[a].push_back({ b, cost });
-        graph[b].push_back({ a, cost });
+        cin >> a >> b >> c;
+        graph[a].push_back({ b, c });
+        graph[b].push_back({ a, c });
     }
-    cin >> v1 >> v2;
 
-    int result1 = Dijkstra(1, v1) + Dijkstra(v1, v2) + Dijkstra(v2, N);
-    int result2 = Dijkstra(1, v2) + Dijkstra(v2, v1) + Dijkstra(v1, N);
-    // 1 -> v1 -> v2 -> N
-    // 1 -> v2 -> v1 -> N
-    // 중 작은 값 출력
+    cin >> u >> v;
+    
+    int result = 0;
 
-    if ((result2 >= INF && result1 >= INF)) cout << "-1\n";
-    else  if (result1 < result2) cout << result1 << "\n";
-    else cout << result2 << "\n";
+    int uv = Dijkstra(1, u, N) + Dijkstra(u, v, N) + Dijkstra(v, N, N); // 1 -> u -> v -> N
+    int vu = Dijkstra(1, v, N) + Dijkstra(v, u, N) + Dijkstra(u, N, N); // 1 -> v -> u -> N
 
-    return 0;
+    uv > vu ? result = vu : result = uv; // shortest distance
+    if (result >= INF) result = -1; // not found
+    cout << result;
 }
 
-int Dijkstra(int start, int end) {
-    priority_queue<Node, vector<Node>, compare> queue;
-    vector<int> dist(MAX_NUM, INF); // INF값을 잘 설정해야함 (오버플로우가 일어나므로)
-    vector<bool> visited(MAX_NUM, false);
+int Dijkstra(int start, int end, int N) {
+    priority_queue<Node, vector<Node>, compare> que;
 
+    fill(dist, dist + N + 1, INF);
     dist[start] = 0;
-    int result = INF;
 
-    queue.push({ start, 0 });
-    while (!queue.empty()) {
-        int curNode = queue.top().v;
-        int curCost = queue.top().cost;
-        queue.pop();
+    que.push({ start, dist[start] });
 
-        if (visited[curNode]) continue;
-        visited[curNode] = true;
+    while (!que.empty()) {
+        int curNode = que.top().node;
+        int curCost = que.top().cost;
+        que.pop();
 
         for (int i = 0; i < graph[curNode].size(); i++) {
-            int nextNode = graph[curNode][i].v;
-            int nextNodeCost = graph[curNode][i].cost;
-            
-            if (nextNodeCost + curCost < dist[nextNode]) {
-                dist[nextNode] = nextNodeCost + curCost;
-                queue.push({ nextNode, nextNodeCost + curCost });
+            int nextNode = graph[curNode][i].node;
+            int nextCost = curCost + graph[curNode][i].cost;
+
+            if (dist[nextNode] > nextCost) {
+                dist[nextNode] = nextCost;
+                que.push({ nextNode, nextCost });
             }
         }
     }
+
     return dist[end];
 }
