@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void divide(int x, int y, int size);
+void Divide(int x, int y, int size);
 bool IsSameColor(int x, int y, int size);
 
 const int MaxSize = 129;
@@ -25,11 +25,11 @@ int main()
             cin >> paper[i][j];
         }
     }
-    divide(1, 1, N);
+    Divide(1, 1, N);
     cout << white << "\n" << blue;
 }
 
-void divide(int x, int y, int size) {
+void Divide(int x, int y, int size) {
     // 모두 blue? white? -> 맞으면 += 아니면 divide
     if (IsSameColor(x, y, size)) {
         if (paper[x][y] == 1) blue += 1;
@@ -39,10 +39,10 @@ void divide(int x, int y, int size) {
 
     int nextSize = size / 2;
 
-    divide(x, y, nextSize);
-    divide(x, y + nextSize, nextSize);
-    divide(x + nextSize, y, nextSize);
-    divide(x + nextSize, y + nextSize , nextSize);
+    Divide(x, y, nextSize);
+    Divide(x, y + nextSize, nextSize);
+    Divide(x + nextSize, y, nextSize);
+    Divide(x + nextSize, y + nextSize , nextSize);
 }
 
 bool IsSameColor(int x, int y, int size) {
