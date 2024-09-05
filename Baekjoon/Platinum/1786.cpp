@@ -6,7 +6,7 @@
 using namespace std;
 
 const long long Mod = 1000000007; // overflow를 막기 위한 mod 연산 시 사용되는 수
-const long long PrimePower = 101; // 소수 거듭 제곱 -> 왜 소수가 작으면 틀렸다고 뜰까..?
+const long long PrimePower = 101; // 소수 거듭 제곱 -> 문자가 약 50개 넘게 사용되므로, 적당히 큰 숫자를 사용해야 함
 
 void RabinKarp(string text, string pattern, int N, int M);
 // 문자열, 패턴, 문자열의 크기, 패턴의 크기
