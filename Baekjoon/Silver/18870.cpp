@@ -26,8 +26,12 @@ int main()
     sortedNums.erase(unique(sortedNums.begin(), sortedNums.end()), sortedNums.end());
     // 정렬 및 중복 제거
 
-    for (auto element : nums) 
+    for (auto element : nums) {
         cout << BinarySearch(0, sortedNums.size() - 1, element, sortedNums) << ' ';
+
+        // STL algorithm
+        // cout << lower_bound(sortedNums.begin(), sortedNums.end(), element) - sortedNums.begin() << ' ';
+    }
 }
 
 int BinarySearch(int start, int end, int value, vector<int>& nums) {
