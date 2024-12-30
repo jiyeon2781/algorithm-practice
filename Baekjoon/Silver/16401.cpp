@@ -23,7 +23,7 @@ int main()
 
     sort(snacks.begin(), snacks.end());
 
-    int result = BinarySearch(0, snacks[N - 1], M); 
+    int result = BinarySearch(1, snacks[N - 1], M); 
     // 나눠줄 수 있는 과자의 최대 길이를 반환
     cout << result << "\n";
 }
@@ -34,7 +34,6 @@ int BinarySearch(int start, int end, int M) {
     while (start <= end) {
         int mid = (start + end) / 2;
         cnt = 0;
-
         for (auto snack : snacks) cnt += (snack / mid);
         // mid 길이로 나오는 과자의 개수 count
 
